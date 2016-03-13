@@ -1,0 +1,26 @@
+{
+  "name": "todoapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "eletrcon main.js",
+  "scripts": {
+    "test": "test",
+    "start": "electron main.js"
+  },
+  "author": "xiang",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^0.4.1",
+    "electron-packager": "^5.2.1",
+    "electron-prebuilt": "^0.36.0",
+    "event-stream": "^3.3.2",
+    "gulp": "^3.9.1",
+    "gulp-coverage": "^0.3.38",
+    "gulp-filter": "^3.0.1",
+    "gulp-mocha": "^2.2.0",
+    "gulp-tsb": "^1.10.1",
+    "requirejs": "^2.1.22",
+    "typescript": "^1.7.5",
+    "underscore": "^1.8.3"
+  }
+}
