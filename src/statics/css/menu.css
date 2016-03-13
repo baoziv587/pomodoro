@@ -21,3 +21,62 @@
   cursor:pointer;
 }
 
+/*timeTracker*/
+
+.timeTracker{
+  padding:2rem;
+  border-bottom:1px solid #ededed;
+}
+
+
+
+
+.timeTracker li{
+  list-style: none;
+  float:left;
+  margin-right:8rem;
+}
+
+.timeTracker .infinite{
+  position: relative;
+  left:-1rem;
+}
+.timeTracker .start{
+  margin:0;
+  float:right; 
+  cursor:pointer;
+  /*dd*/
+}
+
+
+
+.timer {
+  top: -2rem;
+  position: relative;
+  font-size: 1.5rem;  
+}
+
+.timer .min,
+.timer .spliter,
+.timer .sec{
+  color: #FF004B;
+}
+
+.unDisplay{
+  display: none;
+}
+
+/*transition css*/
+.transition{
+  -webkit-transition: all linear 0.5s ;
+  -moz-transition: all linear 0.5s ;
+  transition: all linear  0.5s;
+}
+.fadeIn{
+    opacity: 1
+}
+
+.fadeOut{
+  opacity: 0;
+}
+
