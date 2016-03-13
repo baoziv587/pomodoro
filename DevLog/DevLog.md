@@ -16,3 +16,7 @@
 	*  呼出     default commond + o 	
 	*  最小化  dafault commond + m
 	
+# MAC tray :
+*   graphics
+*   todo list
+*   history analysis
