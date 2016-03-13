@@ -11,25 +11,30 @@ var mocha = require('gulp-mocha');
 var chai = require('chai')
 var cover = require('gulp-coverage')
 var exec = require('child_process').exec
+var watch = require('gulp-watch')
+var incremental = require('./util').incremental
+var liveServer = require('gulp-server-livereload')
 
 var rootDir = path.join(__dirname, './../src');
 const COMPILE_PATH = './../src/**/**/**';
-const TEST_PATH = 'out/**/**/**/test/**.test.js';
+const TEST_PATH = 'out/**/**/test/**.test.js';
+
+global.chai = chai;
 
 /*----------------------------------------------------------------------------
   BUILD SETTINGS
  ----------------------------------------------------------------------------*/
 const buildSettings = require('./buildSettings')
 const APP_DIR = ' out';
-const APP_NAME = ' 番茄土豆';
+const APP_NAME = ' Pomodoro';
 const PLATFORM = buildSettings.platform;
 const ARCH = buildSettings.arch;
+const ICON = buildSettings.icon;
 
 // Increase max listeners for event emitters
 
-global.chai = chai
 
-var toFileUri = function (filePath) {
+var toFileUri = function(filePath) {
   var match = filePath.match(/^([a-z])\:(.*)$/i);
 
   if (match) {
@@ -57,7 +62,7 @@ function createCompile(build) {
 
   var ts = tsb.create(opts);
 
-  return function (token) {
+  return function(token) {
     var tsFilter = filter([
       '**/**/**.ts', '**/**/*.d.ts', '**/**.tsx'
     ], { restore: true });
@@ -73,7 +78,7 @@ function createCompile(build) {
 function compileTask(out, build) {
   var compile = createCompile(build);
 
-  return function () {
+  return function() {
     var src = gulp.src(COMPILE_PATH);
     return src
       .pipe(compile())
@@ -87,28 +92,15 @@ function buildApp() {
   var shell = ['./node_modules/electron-packager/cli.js ',
     APP_DIR,
     APP_NAME,
+    ' --app-copyright ' + '0000',
+    ' --icon ' + ICON,
     ' --platform=' + PLATFORM,
     ' --arch=' + ARCH,
     ' --overwrite'
   ]
   shell = shell.join('');
 
-  exec(shell, function (err, out, stderr) {
-    if (err) {
-      throw (err);
-    }
-    if (out) {
-      console.log(out);
-      return
-    }
-    if (stderr) {
-      console.log(stderr);
-    }
-  })
-}
-function testApp(){
-  const  shell = ''
-  exec(shell, function (err, out, stderr) {
+  exec(shell, function(err, out, stderr) {
     if (err) {
       throw (err);
     }
@@ -122,12 +114,45 @@ function testApp(){
   })
 }
 
-gulp.task('default', ['compile']);
+function testApp() {
+  const shell = './node_modules/electron-prebuilt/cli.js ./out/index.js';
+  exec(shell, function(err, out, stderr) {
+    if (err) {
+      throw (err);
+    }
+    if (out) {
+      console.log(out);
+      return
+    }
+    if (stderr) {
+      console.log(stderr);
+    }
+  })
+}
+
+function watchCompile(cb) {
+  var compile = createCompile(false);
+  watch(COMPILE_PATH)
+    .pipe(incremental(compile, gulp.src(COMPILE_PATH), true))
+    .pipe(gulp.dest('out'))
+}
+
+function server() {
+  gulp.src('./')
+    .pipe(liveServer({
+      livereload: true,
+      open: true,
+      directoryListing: true
+    }))
+}
+
+gulp.task('default', ['packing']);
 gulp.task('compile', compileTask('out', false))
-gulp.task('packing', buildApp)
-gulp.task('testapp',testApp)
-
-gulp.task('coverage', function () {
+gulp.task('packing', ['compile'], buildApp)
+gulp.task('testapp', testApp)
+gulp.task('watch', watchCompile)
+gulp.task('server', server)
+gulp.task('coverage', function() {
   return gulp.src(TEST_PATH)
     .pipe(cover.instrument({
       pattern: ['out/**/*.js'],
@@ -140,7 +165,7 @@ gulp.task('coverage', function () {
 
 })
 
-gulp.task('test', function () {
+gulp.task('test', function() {
   return gulp.src(TEST_PATH)
     .pipe(mocha({ ui: 'tdd' }))
 
