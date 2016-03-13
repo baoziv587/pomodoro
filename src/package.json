@@ -1,5 +1,5 @@
 {
-  "name": "todomvc",
+  "name": "pomodoro",
   "version": "1.0.0",
   "dependencies": {
     "classnames": "^2.2.3",
