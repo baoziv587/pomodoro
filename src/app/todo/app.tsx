@@ -3,6 +3,7 @@ declare var Router: any;
 var TodoModel = app.models.TodoModel
 var TodoFotter = app.componets.TodoFooter
 var TodoItem = app.componets.TodoItem
+var TIMER = app.componets.TimerCounter
 
 namespace app.componets {
   export class TodoApp extends
@@ -21,9 +22,9 @@ namespace app.componets {
       var router = Router({
         '/': setState.bind(this, { nowShowing: app.constants.ALL_TODOS }),
         '/active': setState.bind(this, { nowShowing: app.constants.ACTIVE_TODOS }),
-        'completed': setState.bind(this, { nowShowing: app.constants.COMPLETED_TODOS })
+        '/completed': setState.bind(this, { nowShowing: app.constants.COMPLETED_TODOS })
       })
-      router.init('/');
+      router.init('/active');
     }
 
     public handleNewTodoKeyDown(event) {
@@ -71,6 +72,8 @@ namespace app.componets {
       this.props.model.clearCompleted()
     }
 
+
+
     public render() {
       var footer;
       var main;
@@ -95,7 +98,7 @@ namespace app.componets {
           onEdit={this.edit.bind(this, todo) }
           editing={this.state.editing == todo.id}
           onSave={this.save.bind(this, todo) }
-          onCancel={e=> this.cancel() }
+          onCancel={e => this.cancel() }
           />
       )
 
@@ -110,7 +113,7 @@ namespace app.componets {
           count={activeTodoCount}
           completedCount={completedCount}
           nowShowing={this.state.nowShowing}
-          onClearCompleted={e=> this.clearCompleted() }
+          onClearCompleted={e => this.clearCompleted() }
           />
       }
 
@@ -120,42 +123,47 @@ namespace app.componets {
             <input
               type="checkbox"
               className="toggle-all"
-              onChange={e=> this.toggleAll(e) }
+              onChange={e => this.toggleAll(e) }
               checked={activeTodoCount === 0}/>
-              <ul className="todo-list">
+            <ul className="todo-list">
               {todoItems}
-                </ul>
+            </ul>
 
-            </section>
+          </section>
         )
       }
 
+
+
+
       return (
+
         <header className="header">
-        <input type="text"
-          ref="newField"
-          className="new-todo"
-          placeholder="waht needs to be done"
-          onKeyDown={e=> this.handleNewTodoKeyDown(e) }
-          autoFocus={true}/>
+          <TIMER timerObject={this.props.timer}  todoModel={this.props.model} />
+          <input type="text"
+            ref="newField"
+            className="new-todo"
+            placeholder="waht needs to be done"
+            onKeyDown={e => this.handleNewTodoKeyDown(e) }
+            autoFocus={true}/>
           {main}
           {footer}
-          </header>
+        </header>
       )
     }
   }
 }
 
 
-var model = new TodoModel('react-todos')
+var model = new TodoModel('react-todos');
+var timer = new app.utils.Timer(1);
 var TodoApp = app.componets.TodoApp;
 
 function render() {
   ReactDOM.render(
-    <TodoApp model={model}/>,
+    <TodoApp model={model} timer={timer}/>,
     document.getElementsByTagName('section')[0]
   )
-
 }
 
 model.subscribe(render);

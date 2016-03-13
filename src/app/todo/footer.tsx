@@ -26,7 +26,7 @@ namespace app.componets {
         <footer className="footer">
           <span className="todo-count">
             <strong>{this.props.count}</strong>
-            {activeTodoWord}
+            {'个待完成'}
             </span>
             <ul className="filters">
             <li>
@@ -40,7 +40,7 @@ namespace app.componets {
               {' '}
               <li>
               <a href="#/active" className={cx({ selected: nowShowing === app.constants.ACTIVE_TODOS }) }>
-                Active
+                需要吃掉
                 </a>
                 </li>
               {' '}
@@ -48,7 +48,7 @@ namespace app.componets {
               <a
                 href="#/completed"
                 className={cx({ selected: nowShowing === app.constants.COMPLETED_TODOS }) }>
-                Completed
+                已经吃掉
                 </a>
                 </li>
               </ul>

@@ -11,7 +11,9 @@ namespace app.models {
       this.todos = app.miscelanious.Utils.store(key);
       this.onChanges = [];
     }
-        
+
+
+
     public subscribe(onChange) {
       this.onChanges.push(onChange);
     }
@@ -20,7 +22,7 @@ namespace app.models {
       app.miscelanious.Utils.store(this.key, this.todos)
       this.onChanges.forEach((cb) => cb())
     }
-    
+
     public addTodo(title: string) {
       this.todos = this.todos.concat({
         id: app.miscelanious.Utils.uuid(),
@@ -29,9 +31,9 @@ namespace app.models {
       })
       this.inform()
     }
-    
+
     public toggleAll(checked) {
-      
+
       this.todos = this.todos.map<ITodo>((todo: ITodo) => {
         return app.miscelanious.Utils.extend(
           {}, todo, { completed: checked }
@@ -50,7 +52,20 @@ namespace app.models {
       })
       this.inform()
     }
-    
+
+    //toggle first which wait to do 
+    public toggleFirst(): void {
+      var count = 0;
+      this.todos = this.todos.map<ITodo>((todo: ITodo) => {
+        if (count !== 1 && !todo.completed) {
+          todo.completed = true;
+          count = 1;
+        }
+        return todo
+      })
+      this.inform();
+    }
+
     public destroy(todo) {
       this.todos = this.todos.filter((candidate) => {
         return candidate !== todo;
@@ -59,7 +74,7 @@ namespace app.models {
     }
 
     public save(todoToSave, text) {
-      console.log(todoToSave,text)
+      console.log(todoToSave, text)
       this.todos = this.todos.map((todo) => {
         return todo !== todoToSave
           ? todo
@@ -72,7 +87,8 @@ namespace app.models {
       this.todos = this.todos.filter(
         (todo) => { return !todo.completed }
       )
+      this.inform()
     }
   }
-  
+
 }
