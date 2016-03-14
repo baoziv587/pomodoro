@@ -16,7 +16,8 @@ var incremental = require('./util').incremental
 var liveServer = require('gulp-server-livereload')
 
 var rootDir = path.join(__dirname, './../src');
-const COMPILE_PATH = './../src/**/**/**';
+const COMPILE_PATH = './../src/browser/**/**/**';
+const CMD_COMPILE_PATH = './../src/menu/**/**'
 const TEST_PATH = 'out/**/**/test/**.test.js';
 
 global.chai = chai;
@@ -48,7 +49,7 @@ var toFileUri = function(filePath) {
 
 var tsOptions = {
   target: 'ES5',
-  module: 'commonjs',
+  module: 'amd',
   preserveConstEnums: true,
   experimentalDecorators: true,
   rootDir: rootDir,
@@ -56,8 +57,8 @@ var tsOptions = {
   jsx: 'react'
 };
 
-function createCompile(build) {
-  var opts = _.clone(tsOptions);
+function createCompile(build, ops) {
+  var opts = ops ? ops : _.clone(tsOptions);
   opts.inlineSources = !!build;
 
   var ts = tsb.create(opts);
@@ -75,27 +76,39 @@ function createCompile(build) {
   };
 }
 
-function compileTask(out, build) {
+function compileAMD(out, build) {
   var compile = createCompile(build);
 
   return function() {
-    var src = gulp.src(COMPILE_PATH);
-    return src
+    var src = gulp.src(COMPILE_PATH)
+      .pipe(compile())
+      .pipe(gulp.dest(out));
+  };
+
+}
+
+function compileCMD(out, build) {
+  var cmdOpts = _.clone(tsOptions)
+  cmdOpts.module = 'commonjs';
+  var compile = createCompile(build, cmdOpts)
+
+  return function() {
+    var src = gulp.src('./../src/electron/**/**')
       .pipe(compile())
       .pipe(gulp.dest(out));
   };
 }
 
-
-
 function buildApp() {
   var shell = ['./node_modules/electron-packager/cli.js ',
-    APP_DIR,
-    APP_NAME,
+     APP_DIR,
+     APP_NAME,
     ' --app-copyright ' + '0000',
     ' --icon ' + ICON,
     ' --platform=' + PLATFORM,
     ' --arch=' + ARCH,
+    ' --app-version' + '0.10.0',
+    ' --build-version' + '0.10.0',
     ' --overwrite'
   ]
   shell = shell.join('');
@@ -115,7 +128,7 @@ function buildApp() {
 }
 
 function testApp() {
-  const shell = './node_modules/electron-prebuilt/cli.js ./out/index.js';
+  const shell = './node_modules/electron-prebuilt/cli.js ./out/electron/index.js';
   exec(shell, function(err, out, stderr) {
     if (err) {
       throw (err);
@@ -135,6 +148,7 @@ function watchCompile(cb) {
   watch(COMPILE_PATH)
     .pipe(incremental(compile, gulp.src(COMPILE_PATH), true))
     .pipe(gulp.dest('out'))
+
 }
 
 function server() {
@@ -147,7 +161,8 @@ function server() {
 }
 
 gulp.task('default', ['packing']);
-gulp.task('compile', compileTask('out', false))
+gulp.task('electron', compileCMD('out/electron', false))
+gulp.task('compile', ['electron'], compileAMD('out', false))
 gulp.task('packing', ['compile'], buildApp)
 gulp.task('testapp', testApp)
 gulp.task('watch', watchCompile)

@@ -3,7 +3,7 @@
   "version": "0.36.9",
   "electronVersion":"0.36.8",
   "description": "",
-  "main": "out/electron/index.js",
+  "main": "electron/index.js",
   "scripts": {
     "test": "test",
     "start": "electron main.js"
@@ -11,12 +11,22 @@
   "author": {
     "name": "Xiang Gao"
   },
-  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.3",
+    "director": "^1.2.8",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "requirejs": "^2.1.22",
+    "todomvc-app-css": "^2.0.4",
+    
+    "react-d3": "^0.4.0"
+  },
   "devDependencies": {
     "debounce": "^1.0.0",
     "electron-packager": "^5.2.1",
     "electron-prebuilt": "^0.36.0",
     "event-stream": "^3.3.2",
+    "tsc": "^1.20150623.0",
     "gulp": "^3.9.1",
     "gulp-coverage": "^0.3.38",
     "gulp-filter": "^3.0.1",

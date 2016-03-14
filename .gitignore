@@ -1,19 +1,16 @@
 
 
-src/node_modules/*
+src/browser/node_modules/*
 build/out
 build/reports
 build/node_modules/*
 build/Pomodoro-darwin-x64
-src/app/typings/
-src/statics/font-awesome-4.5.0/*
-*.scss
-src/statics/font-awesome-4.5.0/scss/*.scss
-
-src/statics/font-awesome-4.5.0/HELP-US-OUT.txt
-
-src/statics/font-awesome-4.5.0/less/*.less
-
+src/browser/typings/
+src/electron/*/typings/
+src/browser/statics/font-awesome-4.5.0/scss/*.scss
+src/browser/statics/font-awesome-4.5.0/HELP-US-OUT.txt
+src/browser/statics/font-awesome-4.5.0/less/*.less
+src/browser/statics/font-awesome-4.5.0/fonts/ 
 *.otf
 
-src/statics/font-awesome-4.5.0/fonts/FontAwesome.otf
+
