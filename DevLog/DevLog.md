@@ -20,3 +20,6 @@
 *   graphics
 *   todo list
 *   history analysis
+
+# 更改架构  
+  Browser Source 使用amd 方式 引入.

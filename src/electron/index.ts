@@ -1,4 +1,5 @@
 'use strict';
+declare var __dirname;
 
 const electron = require('electron');
 // Module to control application life.
