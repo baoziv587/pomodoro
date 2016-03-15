@@ -1,7 +1,7 @@
 {
   "name": "pomodoro",
-  "version": "0.36.9",
-  "electronVersion":"0.36.8",
+  "version": "0.36.8",
+  "electronVersion": "0.36.8",
   "description": "",
   "main": "electron/index.js",
   "scripts": {
@@ -12,30 +12,15 @@
     "name": "Xiang Gao"
   },
   "dependencies": {
+    "chart.js": "^1.0.2",
     "classnames": "^2.2.3",
     "director": "^1.2.8",
     "react": "^0.14.6",
+    "react-chartjs": "^0.7.3",
+    "react-d3": "^0.4.0",
     "react-dom": "^0.14.6",
     "requirejs": "^2.1.22",
     "todomvc-app-css": "^2.0.4",
-    
-    "react-d3": "^0.4.0"
-  },
-  "devDependencies": {
-    "debounce": "^1.0.0",
-    "electron-packager": "^5.2.1",
-    "electron-prebuilt": "^0.36.0",
-    "event-stream": "^3.3.2",
-    "tsc": "^1.20150623.0",
-    "gulp": "^3.9.1",
-    "gulp-coverage": "^0.3.38",
-    "gulp-filter": "^3.0.1",
-    "gulp-mocha": "^2.2.0",
-    "gulp-server-livereload": "^1.7.1",
-    "gulp-tsb": "^1.10.1",
-    "gulp-watch": "^4.3.5",
-    "requirejs": "^2.1.22",
-    "typescript": "^1.7.5",
     "underscore": "^1.8.3"
   }
 }

@@ -101,8 +101,8 @@ function compileCMD(out, build) {
 
 function buildApp() {
   var shell = ['./node_modules/electron-packager/cli.js ',
-     APP_DIR,
-     APP_NAME,
+    APP_DIR,
+    APP_NAME,
     ' --app-copyright ' + '0000',
     ' --icon ' + ICON,
     ' --platform=' + PLATFORM,
@@ -154,9 +154,13 @@ function watchCompile(cb) {
 function server() {
   gulp.src('./')
     .pipe(liveServer({
-      livereload: true,
+      livereload: {
+        enable: true,
+        filter: function(filePath, cb) { cb(!(/.DS_Store/.test(filePath))) }
+      },
       open: true,
       directoryListing: true
+
     }))
 }
 

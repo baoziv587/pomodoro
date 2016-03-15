@@ -1,8 +1,11 @@
+/*red #FF004B*  green #1bbc9b*/  
+
+
 .menu{
   position: fixed;
   left:0px;
   top:0px;
-  background-color:rgb(38,38,38);
+  background-color:#1bbc9b;
   padding:1rem;
   height: 100vh;
   margin:0px;
@@ -21,6 +24,9 @@
   cursor:pointer;
 }
 
+.item i::before{
+  color:#fff;
+}
 /*timeTracker*/
 
 .timeTracker{
@@ -41,13 +47,20 @@
   position: relative;
   left:-1rem;
 }
+
+.timeTracker .infinite i::before{
+  color:#1bbc9b;
+}
+
 .timeTracker .start{
   margin:0;
   float:right; 
   cursor:pointer;
   /*dd*/
 }
-
+.timeTracker .start i::before{
+  color:#1bbc9b;
+}
 
 
 .timer {
@@ -59,7 +72,7 @@
 .timer .min,
 .timer .spliter,
 .timer .sec{
-  color: #FF004B;
+  color: #1bbc9b;
 }
 
 .unDisplay{

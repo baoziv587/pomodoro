@@ -6,11 +6,13 @@ build/reports
 build/node_modules/*
 build/Pomodoro-darwin-x64
 src/browser/typings/
+src/browser/*/typings/
 src/electron/*/typings/
 src/browser/statics/font-awesome-4.5.0/scss/*.scss
 src/browser/statics/font-awesome-4.5.0/HELP-US-OUT.txt
 src/browser/statics/font-awesome-4.5.0/less/*.less
 src/browser/statics/font-awesome-4.5.0/fonts/ 
 *.otf
+.vscode/
 
 
